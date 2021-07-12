@@ -1,0 +1,21 @@
+.menubar{
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.link{
+    text-decoration: none;
+    padding: 10px 8px;
+    font-size: 24px;
+    font-weight: bolder;
+    margin: 10px 10px;
+}
+
+/* .routing-container{
+    display:"flex";
+    justify-content:"space-between";
+    align-items:"baseline";
+    flex-wrap:"wrap";
+    border:"1px solid black"
+} */
