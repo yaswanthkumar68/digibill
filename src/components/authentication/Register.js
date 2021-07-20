@@ -5,6 +5,7 @@ import * as Yup from 'yup'
 import { useSelector, useDispatch } from 'react-redux'
 
 import { asyncRegisterStatus, resetRegisterStatus } from '../../actions/statusAction'
+import './authentication.css'
 
 const Register = (props) => {  
     
@@ -56,75 +57,108 @@ const Register = (props) => {
     })
 
     return(
-        <div>
-            <h1>Register here</h1>
-            <form onSubmit={formik.handleSubmit}>
-                <label>Username</label><br/>
-                <input 
-                    type="text"
-                    id="username"
-                    name="username"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.username}
-                /><br/>
-                {formik.touched.username && formik.errors.username ?
-                    <span>{formik.errors.username}</span> : null
-                }<br/>
+        <div className="container">
+            <div className="row">
+                <div className="col">
+                    <h1 className="px-4 animate__animated animate__fadeIn"><span style={{fontSize:"55px"}}>D</span>igi<span style={{fontSize:"55px"}}>B</span>ill</h1>
+                </div>
+            </div>
+            <div className="row gx-5 justify-content-md-center align-items-center mx-3 mb-5">
+                <div className="col-md-6">
+                    <h1 className="text-left animate__animated animate__zoomIn">Now its easy to store all of your business data at one place</h1>
+                </div>
+                <div className="col-md-4 my-3">
+                    <h3 className="text-left mb-3">Register here</h3>
+                    <form onSubmit={formik.handleSubmit}>
+                        <div className="form-group mb-4 w-75">
+                        <label htmlFor="username">Username</label>
+                        <input 
+                            className="form-control border border-dark"
+                            type="text"
+                            id="username"
+                            name="username"
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            value={formik.values.username}
+                        />
+                        {formik.touched.username && formik.errors.username ?
+                            <span class="text-danger">{formik.errors.username}</span> : null
+                        }
+                        </div>
 
-                <label>Email</label><br/>
-                <input
-                    type="text"
-                    id="email"
-                    name="email"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.email}
-                /><br/>
-                {formik.touched.email && formik.errors.email ?
-                    <span>{formik.errors.email}</span> : null
-                }<br/>
-                
-                <label>Password</label><br/>
-                <input 
-                    type="password"
-                    id="password"
-                    name="password"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.password}
-                /><br/>
-                {formik.touched.password && formik.errors.password ?
-                    <span>{formik.errors.password}</span> : null
-                }<br/>
+                        <div className="form-group mb-4 w-75">
+                        <label htmlFor="email">Email</label><br/>
+                        <input
+                            className="form-control border border-dark"
+                            type="text"
+                            id="email"
+                            name="email"
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            value={formik.values.email}
+                        />
+                        {formik.touched.email && formik.errors.email ?
+                            <span class="text-danger">{formik.errors.email}</span> : null
+                        }
+                        </div>
+                        
+                        <div className="form-group mb-4 w-75">
+                        <label htmlFor="password">Password</label>
+                        <input 
+                            className="form-control border border-dark"
+                            type="password"
+                            id="password"
+                            name="password"
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            value={formik.values.password}
+                        />
+                        {formik.touched.password && formik.errors.password ?
+                            <span class="text-danger">{formik.errors.password}</span> : null
+                        }
+                        </div>
 
-                <label>Business name</label><br/>
-                <input 
-                    type="text"
-                    id="businessName"
-                    name="businessName"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.businessName}
-                /><br/><br/>
+                        <div className="form-group mb-4 w-75">
+                        <label htmlFor="businessName">Business name</label>
+                        <input 
+                            className="form-control border border-dark"
+                            type="text"
+                            id="businessName"
+                            name="businessName"
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            value={formik.values.businessName}
+                        />
+                        {formik.touched.businessName && formik.errors.businessName ?
+                            <span class="text-danger">{formik.errors.businessName}</span> : null
+                        }
+                        </div>
 
+                        <div className="form-group mb-4 w-75">
+                        <label htmlFor="address">Address</label>
+                        <textarea
+                            className="form-control border border-dark"
+                            type="text"
+                            name="address"
+                            id="address"
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            value={formik.values.address}
+                            rows="5"
+                            cols="30"
+                        >
+                        </textarea>
+                        {formik.touched.address && formik.errors.address ?
+                            <span class="text-danger">{formik.errors.address}</span> : null
+                        }
+                        </div>
+                        <input type="submit" value="Register" className="button-authentication"/>
+                    </form>
+                    <h5 className="text-left my-3">Already have an account <Link to="/">Login here</Link></h5>
 
-                <label>Address</label><br/>
-                <textarea
-                    type="text"
-                    name="address"
-                    id="address"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.address}
-                    rows="5"
-                    cols="30"
-                >
-                </textarea><br/><br/>
-
-                <input type="submit" value="Register" /><br/>
-            </form>
-            <h3>Already have an account <Link to="/">Login here</Link></h3>
+                </div>
+            
+            </div>
         </div>
     )
 }

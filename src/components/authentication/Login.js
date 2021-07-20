@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { asyncLoginStatus } from '../../actions/statusAction'
-// import './style.css'
+import './authentication.css'
 
 const Login = (props) => {
 
@@ -16,13 +16,14 @@ const Login = (props) => {
     useEffect(() => {
         if(status.logInStatus){
             props.history.push('/dashboard')
+
         }
     }, [status])
 
     const formik = useFormik({
         initialValues : {
-            email : 'sulyagupta@gmail.com',
-            password : 'secret123'
+            email : '',
+            password : ''
         },
 
         validationSchema : Yup.object({
@@ -42,42 +43,58 @@ const Login = (props) => {
 
 
     return(
-        <div className="login-container">
-            <div>
-                <h1>DigiBill</h1>
+        <div className="container">
+            <div className="row">
+                <div className="col">
+                    <h1 className="px-4 animate__animated animate__fadeIn"><span style={{fontSize:"55px"}}>D</span>igi<span style={{fontSize:"55px"}}>B</span>ill</h1>
+                </div>
             </div>
-            <h1>Login here</h1>
-            <form onSubmit={formik.handleSubmit}>
-                <label>Email</label><br/>
-                <input
-                    type="text"
-                    id="email"
-                    name="email"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.email}
-                /><br/>
-                {formik.touched.email && formik.errors.email ?
-                    <span>{formik.errors.email}</span> : null
-                }<br/>
-                
-                <label>Password</label><br/>
-                <input 
-                    type="password"
-                    id="password"
-                    name="password"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.password}
-                /><br/>
-                {formik.touched.password && formik.errors.password ?
-                    <span>{formik.errors.password}</span> : null
-                }<br/><br/>
+            <div className="row gx-5 justify-content-md-center align-items-center m-3">
+                <div className="col-md-6">
+                    <h1 className="text-left animate__animated animate__zoomIn">Turn all your business data into digital by using our app </h1>
+                </div>
+                <div className="col-md-4 my-3">
+                    <h3 className="text-left mb-3">Login here</h3>
+                    <form onSubmit={formik.handleSubmit}>
+                        <div className="form-group mb-4 w-75">
+                            <label htmlFor="email">Email</label>
+                            <input
+                                className="form-control border border-dark"
+                                type="text"
+                                id="email"
+                                name="email"
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={formik.values.email}
+                            />
+                            {formik.touched.email && formik.errors.email ?
+                                <span class="text-danger">{formik.errors.email}</span> : null
+                            }
+                        </div>
+                        <div className="form-group mb-4 w-75">
+                            <label htmlFor="password">Password</label>
+                            <input 
+                                className="form-control border border-dark"
+                                type="password"
+                                id="password"
+                                name="password"
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={formik.values.password}
+                            />
+                            {formik.touched.password && formik.errors.password ?
+                                <span class="text-danger">{formik.errors.password}</span> : null
+                            }
+                        </div>
+                        <input type="submit" value="Login" className="button-authentication" />
+                        
+                    </form>
 
-                <input type="submit" value="Login" />
-            </form>
-
-            <h3>Create a new account here <Link to='/register'>Register</Link></h3>
+                    <h5 className="text-left my-3">Create a new account here <Link to='/register'>Register</Link></h5>
+                </div>
+            </div>
+            
+            
         </div>
     )
 }

@@ -1,12 +1,8 @@
-import axios from 'axios'
+import axios from '../config/axiosConfig'
 
 export const asyncGetBills = () => {
     return((dispatch) => {
-        axios.get(' http://dct-billing-app.herokuapp.com/api/bills', {
-            headers : {
-                'Authorization' : 'Bearer ' + localStorage.getItem('token')
-            }
-        })
+        axios.get('/api/bills')
             .then((response) => {
                 const result = response.data
                 if(result.hasOwnProperty('errors')){
@@ -18,7 +14,7 @@ export const asyncGetBills = () => {
             })
             .catch((error) => {
                 alert(error.message)
-                console.log(error)
+                //console.log(error)
             })
     })
 }
@@ -31,14 +27,10 @@ export const getBills = (result) => {
     }
 }
 
-export const asyncCreateBill = (details) => {
+export const asyncCreateBill = (details, statusSet) => {
 
     return((dispatch) => {
-        axios.post(' http://dct-billing-app.herokuapp.com/api/bills', details, {
-            headers : {
-                'Authorization' : 'Bearer ' + localStorage.getItem('token')
-            }
-        })
+        axios.post('/api/bills', details)
             .then((response) => {
                 const result = response.data
                 if(result.hasOwnProperty('errors')){
@@ -46,11 +38,12 @@ export const asyncCreateBill = (details) => {
                 }
                 else{
                     dispatch(createBill(result))
+                    statusSet()
                 }
             })
             .catch((error) => {
                 alert(error.message)
-                console.log(error)
+                //console.log(error)
             })
     })
 }
@@ -65,11 +58,7 @@ export const createBill = (result) => {
 
 export const asyncDeleteBill = (id) => {
     return((dispatch) => {
-        axios.delete(`http://dct-billing-app.herokuapp.com/api/bills/${id}`, {
-            headers : {
-                'Authorization' : 'Bearer ' + localStorage.getItem('token')
-            }
-        })
+        axios.delete(`/api/bills/${id}`)
             .then((response) => {
                 const result = response.data
                 if(result.hasOwnProperty('errors')){

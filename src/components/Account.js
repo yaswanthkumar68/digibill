@@ -7,15 +7,13 @@ const Account = (props) => {
     })
 
     return(
-        <div>
-            <div>
-                <i className="fas fa-user" style={{fontSize:"100px"}}></i>
-                <h2>{status.account.username}</h2>
-            </div>
-            <div>
-                <h3>Email : {status.account.email}</h3>
-                <h3>Business : {status.account.businessName}</h3>
-                <h3>Address : {status.account.address}</h3>
+        <div className="row my-5 justify-content-center" style={{margin:"1.5em"}}>
+            <div className="col-5 text-center" style={{marginTop:"5em"}}>
+                <i className="fas fa-user my-2" style={{fontSize:"100px"}}></i>
+                <h2 className="my-2">{status.account.username}</h2>
+                <h3 className="my-2">{status.account.email}</h3>
+                <h3 className="my-2">{status.account.businessName}</h3>
+                <h3 className="my-2">{status.account.address}</h3>
             </div>
 
         </div>

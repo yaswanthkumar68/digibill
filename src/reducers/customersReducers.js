@@ -20,7 +20,7 @@ const customersReducer = (state = customersInitialState, action) => {
             })
         }
         case 'REMOVE_CUSTOMER' : {
-            return state.map((ele) => {
+            return state.filter((ele) => {
                 return ele._id !== action.payload._id
             })
         }

@@ -1,20 +1,15 @@
-import axios from 'axios'
+import axios from '../config/axiosConfig'
 
 export const asyncGetProducts = () => {
 
     return((dispatch) => {
-
-        axios.get('http://dct-billing-app.herokuapp.com/api/products', {
-            headers :{
-                'Authorization' : 'Bearer ' + localStorage.getItem('token')
-            }
-        })
+        axios.get('/api/products')
         .then((response) => {
             const result = response.data
             dispatch(getProducts(result))
         })
         .catch((error) => {
-            console.log(error.message)
+            //console.log(error.message)
             alert(error.message)
         })
     })
@@ -32,18 +27,14 @@ export const getProducts = (result) => {
 export const asyncCreateProduct = (values) => {
 
     return((dispatch) => {
-        axios.post('http://dct-billing-app.herokuapp.com/api/products', values, {
-            headers : {
-                'Authorization' : 'Bearer ' + localStorage.getItem('token')
-            }
-        })
+        axios.post('/api/products', values)
         .then((response) => {
             const result = response.data
             if(result.hasOwnProperty('errors')){
                 alert(result.errors.message)
             }
             else{
-                console.log(result)
+                //console.log(result)
                 dispatch(createProduct(result))
             }
         })
@@ -64,11 +55,7 @@ export const createProduct = (result) => {
 export const asyncEditProduct = (id, details) => {
 
     return((dispatch) => {
-        axios.put(`http://dct-billing-app.herokuapp.com/api/products/${id}`, details, {
-            headers : {
-                'Authorization' : 'Bearer ' + localStorage.getItem('token')
-            }
-        })
+        axios.put(`/api/products/${id}`, details)
         .then((response) => {
             const result = response.data
             if(result.hasOwnProperty('errors')){
@@ -79,7 +66,7 @@ export const asyncEditProduct = (id, details) => {
             }
         })
         .catch((error) => {
-            console.log(error.message)
+            alert(error.message)
         })
     })
 }
@@ -95,11 +82,7 @@ export const editProduct = (result) => {
 export const asyncRemoveProduct = (id) => {
 
     return((dispatch) => {
-        axios.delete(`http://dct-billing-app.herokuapp.com/api/products/${id}`, {
-            headers :{
-                'Authorization' : 'Bearer ' + localStorage.getItem('token')
-            }
-        }) 
+        axios.delete(`/api/products/${id}`) 
         .then((response) => {
             const result = response.data
             dispatch(removeProduct(result))

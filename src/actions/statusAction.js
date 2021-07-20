@@ -1,9 +1,9 @@
-import axios from "axios"
+import axios from "../config/axiosConfig"
 
 export const asyncRegisterStatus = (values) => {
     
     return((dispatch) => {
-        axios.post(' http://dct-billing-app.herokuapp.com/api/users/register', values)
+        axios.post('/api/users/register', values)
         .then((response) => {
             const result = response.data
             if(result.hasOwnProperty('errors')){
@@ -37,7 +37,7 @@ export const resetRegisterStatus = () => {
 export const asyncLoginStatus = (values) => {
 
     return((dispatch) => {
-        axios.post('http://dct-billing-app.herokuapp.com/api/users/login', values)
+        axios.post('/api/users/login', values)
             .then((response) => {
                 const result = response.data
                 if(result.hasOwnProperty('errors')){
@@ -46,6 +46,7 @@ export const asyncLoginStatus = (values) => {
                 else{
                     alert('sucessfully logged in')
                     localStorage.setItem('token', result.token)
+                    window.location.reload()
                     dispatch(setLogin())
                 }
             })
@@ -73,11 +74,7 @@ export const resetLogin = () => {
 export const asyncGetAccount = () => {
 
     return((dispatch) => {
-        axios.get(' http://dct-billing-app.herokuapp.com/api/users/account' , {
-            headers :{
-                'Authorization' : 'Bearer ' + localStorage.getItem('token')
-            }
-        }) 
+        axios.get('/api/users/account') 
             .then((response) => {
                 const result = response.data
                 if(result.hasOwnProperty('errors')){

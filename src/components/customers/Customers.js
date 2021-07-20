@@ -29,8 +29,7 @@ const Customers = (props) => {
 
 
     return(
-        <div>
-            <h2>Customers Component</h2>
+        <div style={{marginLeft:"1em"}}>
             <CustomerForm editData={editData} status={status} reset={reset} />
             <CustomersSearch />
         </div>

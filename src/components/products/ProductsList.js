@@ -15,9 +15,9 @@ const ProductsList = ({handleClick}) => {
 
     const dispatch = useDispatch()
 
-    useEffect(() => {
-        dispatch(asyncGetProducts())
-    }, [])
+    // useEffect(() => {
+    //     dispatch(asyncGetProducts())
+    // }, [])
 
     useEffect(() => {
         if(search === ''){
@@ -68,16 +68,22 @@ const ProductsList = ({handleClick}) => {
     }
 
     return(
-        <div>
-            <h2>Total products - {products.length}</h2>
-            <input type="text" value={search} onChange={handleSearch} />
-            <select value={sort} onChange={handleOption}>
-                <option value=''>Sort by</option>
-                <option value='Low to High'>Low to High</option>
-                <option value='High to Low'>High to Low</option>
-            </select>
-            <ProductsInfo list={list} removeProduct={removeProduct} editProduct={editProduct} />
-        </div>
+        <>
+            <div className="row my-4 justify-content-md-center">
+                <h3 className="col-4" style={{color:"crimson"}}>Total products - {products.length}</h3>
+                <input className="col-3"type="search" value={search} onChange={handleSearch} placeholder="search by product" />
+                <div className="col-1 mx-3 ">
+                    <select  value={sort} onChange={handleOption} style={{height:"40px"}}>
+                        <option value=''>Sort by</option>
+                        <option value='Low to High'>Low to High</option>
+                        <option value='High to Low'>High to Low</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <ProductsInfo list={list} removeProduct={removeProduct} editProduct={editProduct} />
+            </div>
+        </>
     )
 }
 

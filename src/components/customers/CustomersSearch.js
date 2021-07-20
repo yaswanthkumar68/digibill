@@ -10,11 +10,6 @@ const CustomersSearch = (props) => {
     const customers = useSelector((state) => {
         return state.customers
     })
-    const dispatch = useDispatch()
-
-    useEffect(() => {
-        dispatch(asyncGetCustomers())
-    }, [])
 
     useEffect(() => {
         if(search === ''){
@@ -35,8 +30,11 @@ const CustomersSearch = (props) => {
 
     return(
         <div>
-            <h2>Total customers - {customers.length}</h2>
-            <input type="text" value={search} onChange={handleSearch} />
+            <div className="row my-4 justify-content-md-center">
+                <h3 className="col-5" style={{color:"crimson"}}>Total customers - {customers.length}</h3>
+                <input type="search" className="col-4" value={search} onChange={handleSearch} placeholder="search by name"/>
+            </div>
+            
             <div>
                 <CustomersList list={list} />
             </div>

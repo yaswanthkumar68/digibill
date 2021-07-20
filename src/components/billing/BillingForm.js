@@ -2,15 +2,24 @@ import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Hint } from 'react-autocomplete-hint'
 import { asyncCreateBill } from '../../actions/billsAction'
+import { getAllMobileNumbers, getProductsName, getProductDetails, getProductAmount } from '../../selectors/bills'
+import { swal } from '../../selectors/alerts'
 
 
 const BillingForm = (props) => {
     const [ customerDetails, setCustomerDetails ] = useState({id:'', name:'', mobile:''})
     const [ productsDetails, setProductDetails ] = useState([{id:'', name:'', price:'', quantity:'', subTotal:''}])
     const [ total, setTotal ] = useState('')
+    const [ status, setStatus ] = useState(false)
+    
     const date = new Date().toISOString().split('T')[0]
 
     const dispatch = useDispatch()
+
+    const bills = useSelector((state) => {
+        return state.bills
+    })
+    //console.log(bills)
 
     useEffect(() => {
         let totalAmount = 0
@@ -21,14 +30,19 @@ const BillingForm = (props) => {
         setTotal(totalAmount)
     }, [productsDetails])
 
+    useEffect(() => {
+        if(status){
+            props.history.push({
+                pathname : `/bills/${bills[bills.length-1]._id}`,
+                state : bills[bills.length-1]
+            })
+        }
+    }, [bills, status])
+
     // customer details
     const customers = useSelector((state) => {
         return state.customers
     })
-    const result = customers.map((ele) =>{
-        return ele.mobile
-    })
-    //console.log(result)
 
     const handleBlur = () => {
         const customer = customers.find((ele) => {
@@ -38,6 +52,10 @@ const BillingForm = (props) => {
         if(customer){
             const details = {...customerDetails}
             setCustomerDetails({...details, id:customer._id, name:customer.name})
+        }
+        else{
+            alert('customer is not added in list')
+            props.history.push('/customers')
         }
     }
     const handleFocus = () => {
@@ -50,14 +68,10 @@ const BillingForm = (props) => {
         const details = {...customerDetails}
         setCustomerDetails({...details, mobile: value})
     }
-    // console.log(customerDetails)
 
     // Products Information
     const products = useSelector((state) => {
         return state.products
-    })
-    const productsName = products.map((ele) => {
-        return ele.name
     })
 
     const handleProductChange = (e, index) =>{
@@ -78,59 +92,34 @@ const BillingForm = (props) => {
         setProductDetails([...productsDetails, {id:'', name:'', price:'', quantity:'', subTotal:''}])
     }
 
-    const handleRemove = (i) => {
+    const handleRemove = (e,i) => {
+        // e.stopPropagation()
         const result = productsDetails.filter((ele,index) => {
             return i !== index
         })
+
+        //console.log(result, 'result')
         setProductDetails(result)
     }
+    
 
     const handleProductBlur = (e, index) => {
         const {name, value} = e.target
-        //console.log(e.target.name)
+    
         if(name === 'name'){
-            const result = products.find((ele) => {
-                return ele.name === value
-            })
-            // console.log(result)
-            if(result){
-                const updatedResult = productsDetails.map((ele, i) => {
-                    if(i === index){
-                        return {...ele, id: result._id, price: result.price}
-                    }
-                    else{
-                        return ele
-                    }
-                })
-                setProductDetails(updatedResult)
+            const res = getProductDetails(value, index, products, productsDetails)
+            if(res){
+                setProductDetails(res)
             }
-            else if(result && productsDetails.name){
+            else{
                 alert('product item is not found in the list')
-                const result = productsDetails.map((ele, i) => {
-                    if(i === index){
-                        return {...ele, name: ''}
-                    }
-                    else{
-                        return ele
-                    }
-                })
-                setProductDetails(result)
-
             }
         }
         else if(name === 'quantity'){
-            const updatedResult = productsDetails.map((ele, i) => {
-                if(i === index){
-                    const amount = ele.quantity*ele.price
-                    return {...ele, subTotal:amount}
-                }
-                else{
-                    return ele
-                }
-            })
-            setProductDetails(updatedResult)
+            const res = getProductAmount(index, productsDetails)
+            //console.log('res', res)
+            setProductDetails(res)
         }
-
     }
 
     const handleSubmit = (e) => {
@@ -147,21 +136,34 @@ const BillingForm = (props) => {
             customer: customerDetails.id,
             lineItems : lineItems
         }
-        dispatch(asyncCreateBill(data))
-        //console.log(data)
-    }
+        const statusSet = () => {
+            setStatus(true)
+        }
+        dispatch(asyncCreateBill(data, statusSet))
+        //console.log('clicked')
+        setCustomerDetails({id:'', name:'', mobile:''})
+        setProductDetails([{id:'', name:'', price:'', quantity:'', subTotal:''}])
+        
 
-    //console.log(productsDetails)
+    }
+    // console.log(status)
     return(
-        <div>
-            <form onSubmit={handleSubmit}>
-                <label>Date</label><br/>
-                <input type="text" defaultValue={date} disabled={true}/><br/>
-                <div style={{display:"flex"}}>
-                    <div>
-                        <label>Customer mobile</label><br/>
-                        <Hint options={result} allowTabFill={true}>
+        
+        <div className="mx-5 py-3" >
+            <h2>Billing Form</h2>
+            {/* <form onSubmit={handleSubmit} className="my-4"> */}
+                <div className="form-group col-2 my-2">
+                    <label>Date</label><br/>
+                    <input type="text" className="form-control border border-info" defaultValue={date} disabled={true}/><br/>
+                </div>
+                
+                <div className="row my-2">
+                    <h3>Customer Details</h3>
+                    <div className="col-3 form-group">
+                        <label>Customer Mobile</label><br/>
+                        <Hint options={getAllMobileNumbers(customers)} allowTabFill={true}>
                             <input 
+                                className="form-control border border-dark"
                                 type="text" 
                                 name="mobile" 
                                 value={customerDetails.mobile} 
@@ -172,32 +174,38 @@ const BillingForm = (props) => {
                         </Hint>
                         
                     </div>
-                    <div>
-                        <label>Customer name</label><br/>
+                    <div className="col-4 form-group">
+                        <label>Customer Name</label><br/>
                         <input 
+                            className="form-control border border-info"
                             type="text" 
                             name="name" 
                             value={customerDetails.name} 
                             disabled={true} 
                         />
                     </div>
-                    <div>
+                    {/* <div className="col-4 form-group">
                         <label>Customer id</label><br/>
                         <input 
+                            className="form-control border border-info"
                             type="text" 
                             name="id" 
                             value={customerDetails.id} 
                             disabled={true} 
                         />
-                    </div>
+                    </div> */}
+                </div>
+                <div className="row mt-4">
+                    <h3>Products Details</h3> 
                 </div>
                 {productsDetails.map((ele, i) => {
                     return(
-                        <div style={{display:"flex"}} key={i}>
-                            <div>
-                                <label>Product name</label><br/>
-                                <Hint options={productsName} allowTabFill={true}>
+                        <div key={i} className="row">
+                            <div className="col-4 form-group mb-2" >
+                                <label>Product Name</label>
+                                <Hint options={getProductsName(products)} allowTabFill={true}>
                                     <input 
+                                        className="form-control border border-dark"
                                         type="text" 
                                         name="name" 
                                         value={ele.name} 
@@ -208,9 +216,10 @@ const BillingForm = (props) => {
                                 </Hint>
                                 
                             </div>
-                            <div>
-                                <label>Product Quantity</label><br/>
+                            <div className="col-3 form-group">
+                                <label>Product Quantity</label>
                                 <input 
+                                    className="form-control border border-dark"
                                     type="number" 
                                     name="quantity" 
                                     value={ele.quantity} 
@@ -219,36 +228,48 @@ const BillingForm = (props) => {
                                 //     onFocus={handleProductFocus}
                                 />
                             </div>
-                            <div>
-                                <label>Sub total</label><br/>
-                                <input 
-                                    type="text" 
-                                    name="subTotal" 
-                                    value={ele.subTotal} 
-                                    disabled={true} 
-                                />
+                            <div className="col-5 form-group d-flex">
+                                <div>
+                                    <label>Sub Total</label>
+                                    <input 
+                                        className="form-control border border-info"
+                                        type="text" 
+                                        name="subTotal" 
+                                        value={ele.subTotal} 
+                                        disabled={true} 
+                                    />
+                                </div>
                                 {productsDetails.length > 1 && 
                                     <button
-                                        style={{border:'none', backgroundColor:"whitesmoke"}}
-                                        onClick={() => {handleRemove(i)}}>
-                                            &nbsp; <i className="fas fa-minus-circle" style={{color:"red"}}></i>
+                                        className="mx-1 "
+                                        style={{border:'none', backgroundColor:"#EBEBF3"}}
+                                        onClick={(e) => {handleRemove(e, i)}}>
+                                            &nbsp; <i className="fas fa-minus-circle my-4" style={{color:"red", backgroundColor:"#EBEBF3", fontSize:"25px"}}></i>
                                     </button>
                                     }
                                 {i === productsDetails.length-1 && 
                                     <button 
-                                        style={{border:'none'}} 
+                                        className="mx-1"
+                                        style={{border:'none', backgroundColor:"#EBEBF3"}} 
                                         onClick={handleAdd}>
-                                            &nbsp;<i className="fas fa-plus-circle" style={{color:"green"}}></i>
+                                            &nbsp;<i className="fas fa-plus-circle my-4" style={{color:"green",backgroundColor:"#EBEBF3", fontSize:"25px"}}></i>
                                     </button>
-                                }<br/>
+                                }
                                 
                             </div>
                         </div>
                     )
-                })}<br/><br/>
-                <label style={{marginLeft:'290px'}}>Total &nbsp;</label><input type="text" value={total} disabled={true} /><br/>
-                <input type="submit" value="Create" />
-            </form>
+                })}
+                <div className="col-2 form-group my-3" >
+                    <label className="my-2">Total</label>
+                    <input className="form-control border border-info"type="text" value={total} disabled={true} /><br/>
+                </div>
+                
+                <button onClick={handleSubmit} className="btn btn-success btn-lg">Create</button>
+                
+                {/* <input type="submit" value="Create" className="btn btn-success btn-lg" /> */}
+                {/* </div> */}
+             {/* </form> */}
 
         </div>
     )

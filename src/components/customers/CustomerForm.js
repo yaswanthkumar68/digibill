@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import validator from 'validator'
 import { asyncCreateCustomer, asyncEditCustomer } from '../../actions/customersAction'
+import { swal } from '../../selectors/alerts'
 
 const CustomerForm = ({editData, status, reset}) => {
     const [ details, setDetails ] = useState({name : '', mobile : '', email : ''})
@@ -64,13 +65,14 @@ const CustomerForm = ({editData, status, reset}) => {
         if(Object.keys(errors).length === 0){
             setFormErrors({})
             if(status){
-                console.log(details, 'updated')
                 dispatch(asyncEditCustomer(editData._id, details))
                 reset()
+                swal(`${details.name} details updated successfully`)
             }
             else{
-                console.log(details, 'create')
+                //console.log(details, 'create')
                 dispatch(asyncCreateCustomer(details))
+                swal(`${details.name}   details created sucessfully`)
             }
             
             setDetails({name :'', mobile : '', email : ''})
@@ -83,36 +85,47 @@ const CustomerForm = ({editData, status, reset}) => {
     
 
     return(
-        <div>
-            <form onSubmit={handleSubmit}>
-                <label>Name</label><br/>
-                <input 
-                    type="text" 
-                    name="name" 
-                    value={details.name} 
-                    onChange={handleChange} 
-                    onFocus={handleFocus}
-                />{formErrors.name && <span>{formErrors.name}</span>}<br/>
-
-                <label>Mobile</label><br/>
-                <input 
-                    type="text" 
-                    name="mobile" 
-                    value={details.mobile} 
-                    onChange={handleChange} 
-                    onFocus={handleFocus}
-                />{formErrors.mobile && <span>{formErrors.mobile}</span>}<br/>
-
-                <label>Email</label><br/>
-                <input 
-                    type="text" 
-                    name="email" 
-                    value={details.email} 
-                    onChange={handleChange} 
-                    onFocus={handleFocus}
-                />{formErrors.email && <span>{formErrors.email}</span>}<br/>
-
-                <input type="submit" value={status ? "update" : "create"} />
+        <div className="my-3" style={{borderRadius:"10px", boxShadow:"0px 0px 4px #333", backgroundColor:"whitesmoke"}}>
+            <form onSubmit={handleSubmit} className="row justify-content-md-center py-3">
+                <div className="col-3 form-group">
+                    <label>Name</label><br/>
+                    <input
+                        className="form-control border border-dark" 
+                        type="text" 
+                        name="name" 
+                        value={details.name} 
+                        onChange={handleChange} 
+                        onFocus={handleFocus}
+                    />{formErrors.name && <span class="text-danger">{formErrors.name}</span>}<br/>
+                </div>
+                
+                <div className="col-3 form-group">
+                    <label>Mobile</label><br/>
+                    <input 
+                        className="form-control border border-dark"
+                        type="text" 
+                        name="mobile" 
+                        value={details.mobile} 
+                        onChange={handleChange} 
+                        onFocus={handleFocus}
+                    />{formErrors.mobile && <span class="text-danger">{formErrors.mobile}</span>}<br/>
+                </div>
+                
+                <div className="col-3 form-group">
+                    <label>Email</label><br/>
+                    <input 
+                        className="form-control border border-dark"
+                        type="text" 
+                        name="email" 
+                        value={details.email} 
+                        onChange={handleChange} 
+                        onFocus={handleFocus}
+                    />{formErrors.email && <span class="text-danger">{formErrors.email}</span>}<br/>
+                </div>
+                <div className="col-1">
+                    <input type="submit" value={status ? "Update" : "Create"} className="btn btn-success btn-lg my-3" />
+                </div>
+                
             </form>
         </div>
     )

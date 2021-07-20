@@ -1,14 +1,10 @@
-import axios from 'axios'
+import axios from '../config/axiosConfig'
 
 // get all customers
 export const asyncGetCustomers = () => {
 
     return((dispatch) => {
-        axios.get('http://dct-billing-app.herokuapp.com/api/customers',{
-            headers : {
-                'Authorization' : 'Bearer ' + localStorage.getItem('token')
-            }
-        })
+        axios.get('api/customers')
             .then((response) => {
                 const result =  response.data
                 dispatch(getCustomers(result))
@@ -31,11 +27,7 @@ export const getCustomers = (result) => {
 export const asyncCreateCustomer = (data) => {
 
     return((dispatch) => {
-        axios.post('http://dct-billing-app.herokuapp.com/api/customers', data , {
-            headers : {
-                'Authorization' : 'Bearer ' + localStorage.getItem('token')
-            }
-        })
+        axios.post('/api/customers', data)
             .then((response) => {
                 const result = response.data
                 if(result.hasOwnProperty('errors')){
@@ -64,11 +56,7 @@ export const createCustomer = (result) => {
 export const asyncEditCustomer = (id, data) => {
 
     return((dispatch) => {
-        axios.put(`http://dct-billing-app.herokuapp.com/api/customers/${id}`, data, {
-            headers : {
-                'Authorization' : 'Bearer ' + localStorage.getItem('token')
-            }
-        })
+        axios.put(`/api/customers/${id}`, data)
         .then((response) => {
             const result = response.data
             if(result.hasOwnProperty('errors')){
@@ -94,17 +82,14 @@ export const editCustomer = (result) => {
 
 // remove customer
 
-export const asyncRemoveCustomer = (id) => {
+export const asyncRemoveCustomer = (id, redirect) => {
 
     return((dispatch) => {
-        axios.delete(`http://dct-billing-app.herokuapp.com/api/customers/${id}`, {
-            headers :{
-                'Authorization' : 'Bearer ' + localStorage.getItem('token')
-            }
-        }) 
+        axios.delete(`/api/customers/${id}`) 
         .then((response) => {
             const result = response.data
             dispatch(removeCustomer(result))
+            redirect()
         })
         .catch((error) => {
             alert(error.message)

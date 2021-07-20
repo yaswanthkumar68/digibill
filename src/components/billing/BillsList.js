@@ -1,55 +1,55 @@
-import React, {useState, useEffect } from 'react'
+import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { asyncDeleteBill, asyncGetBills } from '../../actions/billsAction'
+import { asyncDeleteBill} from '../../actions/billsAction'
+import { getName } from '../../selectors/bills'
+import Swal from 'sweetalert2'
+import { swal } from '../../selectors/alerts'
 
 const BillsList = (props) => {
-    const [ billsList, setBillsList ]  = useState([])
-
-    const bills = useSelector((state) => {
-        return state.bills
-    })
-    
+        
     const customers = useSelector((state) => {
         return state.customers
     })
     //console.log(customers)
 
-    const products = useSelector((state) => {
-        return state.products
+    const bills = useSelector((state) => {
+        return state.bills
     })
 
+    const listBills = [...bills]
     //console.log(billsList)
-
     const dispatch = useDispatch()
-
-    useEffect(() => {
-        dispatch(asyncGetBills())
-    }, [])
-
-    useEffect(() => {
-        const res = bills.map((ele) => {
-            const result = customers.find((cus) => {
-                return ele.customer === cus._id
-            })
-        return {...ele, ...{customerName : result.name}}
-        })
-        setBillsList(res)
-    }, [bills])
-
-    
-
     const handleRemove = (id) => {
-        dispatch(asyncDeleteBill(id))
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes',
+            cancelButtonText:'No'
+          }).then((result) => {
+            if (result.isConfirmed) {
+                dispatch(asyncDeleteBill(id))
+                swal('Bill is deleted sucessfully')
+            }
+          })  
+       
     }
 
     return(
-        <div>
-            <h2>Total bills - {billsList.length}</h2>
-            <button><Link to="/bills/billingform" style={{textDecoration:"none", color:"blue"}}>Create a bill</Link></button><br/><br/>
-            <div>
-                {billsList.length > 0 &&
-                <table border="1px solid black">
+        <div style={{marginLeft:"1.5em"}}>
+            <div className="row my-4 justify-content-around align-items-center">
+                <h3 className="col-3 my-1" style={{color:"crimson"}}>Total bills - {bills.length}</h3>
+                <button className="col-2 btn btn-success btn-lg"><Link to="/bills/billingform" style={{textDecoration:"none", color:"white"}}>Create new bill</Link></button>
+            </div>
+
+            <div style={{overflow:"auto", height:"70vh"}}>
+            <div className="row justify-content-center">
+                {bills.length && customers.length ?
+                <table className="table table-hover w-75 text-center" style={{fontSize:"20px"}}>
                     <thead>
                         <tr>
                             <th>Date</th>
@@ -59,22 +59,23 @@ const BillsList = (props) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {billsList.map((ele) => {
+                        {listBills.reverse().map((ele) => {
                             return (
                                 <tr key={ele._id}>
                                     <td>{new Date(ele.date).toISOString().split('T')[0]}</td>
-                                    <td>{ele.customerName}</td>
-                                    <td>{ele.total}</td>
+                                    <td>{getName(ele.customer, customers).name}</td>
+                                    <td>Rs. {ele.total}/-</td>
                                     <td>
-                                        <button>Generate</button>
-                                        <button onClick={() => {handleRemove(ele._id)}}>Delete</button>
+                                        <button style={{border:"none", backgroundColor:"none"}}><Link to={{pathname:`/bills/${ele._id}`, state:ele}}><i className="fas fa-file-invoice mx-2" style={{color:"blue", fontSize:"20px"}}></i></Link></button>
+                                        <button style={{border:"none", backgroundColor:"none"}} onClick={() => {handleRemove(ele._id)}}><i className="far fa-trash-alt mx-2" style={{color:"red", fontSize:"20px"}}></i></button>
                                     </td>
                                 </tr>
                             )
                         })}
                     </tbody>
-                </table>
+                </table> : null
                 }
+            </div>
             </div>
         </div>
     )
