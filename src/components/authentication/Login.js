@@ -13,17 +13,17 @@ const Login = (props) => {
     })
     const dispatch = useDispatch()
 
-    useEffect(() => {
-        if(status.logInStatus){
-            props.history.push('/dashboard')
-
-        }
-    }, [status])
+    // useEffect(() => {
+    //     if(status.logInStatus){
+    //         props.history.push('/dashboard')
+    //         //console.log(status.logInStatus)
+    //     }
+    // }, [status])
 
     const formik = useFormik({
         initialValues : {
-            email : '',
-            password : ''
+            email : 'yaswanth17@gmail.com',
+            password : 'secret123'
         },
 
         validationSchema : Yup.object({
@@ -35,7 +35,7 @@ const Login = (props) => {
                     .required('password cannot be blank')
         }), 
         onSubmit : ((values, {resetForm}) => {
-            console.log(values)
+            //console.log(values)
             dispatch(asyncLoginStatus(values))
             resetForm({values : ''})
         })
@@ -43,7 +43,7 @@ const Login = (props) => {
 
 
     return(
-        <div className="container">
+        <div className="auth-container">
             <div className="row">
                 <div className="col">
                     <h1 className="px-4 animate__animated animate__fadeIn"><span style={{fontSize:"55px"}}>D</span>igi<span style={{fontSize:"55px"}}>B</span>ill</h1>
@@ -66,6 +66,7 @@ const Login = (props) => {
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
                                 value={formik.values.email}
+                                
                             />
                             {formik.touched.email && formik.errors.email ?
                                 <span class="text-danger">{formik.errors.email}</span> : null

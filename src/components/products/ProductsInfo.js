@@ -44,7 +44,7 @@ const ProductsInfo = (props) => {
                         <h5 style={{color:"green"}}>{ele.name}</h5>
                         <h5 style={{color:"crimson"}}>Rs - {ele.price}</h5>
                         <button className="btn btn-success" onClick={() => {handleEdit(ele._id, ele.name, ele.price)}}><i class="far fa-edit"></i></button>&nbsp;&nbsp;
-                        <button className="btn btn-danger" onClick={() => {handleRemove(ele._id)}}><i class="far fa-trash-alt"></i></button> 
+                        <button className="btn btn-danger" onClick={() => {handleRemove(ele._id)}}><i className="far fa-trash-alt"></i></button> 
                     </div>
                 )
 

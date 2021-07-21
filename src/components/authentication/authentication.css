@@ -1,6 +1,6 @@
-.container{
-  margin: 2em 1em;
-  width: 100vw;
+.auth-container{
+  margin: 2em auto;
+  width: 90vw;
   min-height: 90vh;
   height: auto;
   box-shadow: 0px 0px 8px black;

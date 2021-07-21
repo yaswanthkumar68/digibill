@@ -13,6 +13,7 @@ const Dashboard = (props) => {
     })
 
     return(
+        
         <div style={{margin:"1.5em"}}>
             <div className="row mb-3">
                 <h2 className="col-10">hey! {status.account.username}....</h2>
@@ -26,9 +27,7 @@ const Dashboard = (props) => {
             <div className="d-flex justify-content-between my-3">
                 <TopCustomers />
                 <TopProducts />
-            </div>
-            
-            
+            </div>            
         </div>
     )
 }

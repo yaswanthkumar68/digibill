@@ -13,7 +13,7 @@ const BillsData = (props) => {
 
     return(
         <>
-            {bills.length &&
+            {bills.length ?
                 <div className="col-8  my-2 animate__animated animate__zoomIn" style={{boxShadow:"0px 0px 4px #333", backgroundColor:"whitesmoke"}}>
                     <h3 className="text-center text-info my-2">Sales analysis of last 7 days</h3>
                     <BarChart width={800} height={350} data={billsData}
@@ -30,7 +30,7 @@ const BillsData = (props) => {
                         <Tooltip />
                         <Bar dataKey="netAmount" fill="green" barSize={25} />
                     </BarChart>
-                </div>
+                </div> : null
             }
         </>
     )

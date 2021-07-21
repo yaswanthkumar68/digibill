@@ -57,7 +57,7 @@ const Register = (props) => {
     })
 
     return(
-        <div className="container">
+        <div className="auth-container">
             <div className="row">
                 <div className="col">
                     <h1 className="px-4 animate__animated animate__fadeIn"><span style={{fontSize:"55px"}}>D</span>igi<span style={{fontSize:"55px"}}>B</span>ill</h1>
