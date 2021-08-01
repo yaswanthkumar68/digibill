@@ -3,7 +3,12 @@
 Digibill is a billing application where shop keeper can maintain all his business data at one place and generate  digital invoices for purchased products.
 
 ## Packages used
-Redux, React-Router-DOM, Formik, Yup, Axios, Thunk
+* Redux  
+* React-Router-DOM  
+* Formik  
+* Yup  
+* Axios  
+* Thunk
 
 For demo of this app https://digibill.netlify.app/
 
