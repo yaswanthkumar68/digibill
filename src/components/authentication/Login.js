@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { useFormik } from 'formik'
@@ -7,6 +7,7 @@ import { asyncLoginStatus } from '../../actions/statusAction'
 import './authentication.css'
 
 const Login = (props) => {
+    const [ serverErrors, setServerErrors ] = useState({})
 
     const status = useSelector((state) => {
         return state.status
@@ -19,6 +20,10 @@ const Login = (props) => {
     //         //console.log(status.logInStatus)
     //     }
     // }, [status])
+
+    const handleFocus = () => {
+        setServerErrors({})
+    }
 
     const formik = useFormik({
         initialValues : {
@@ -35,8 +40,11 @@ const Login = (props) => {
                     .required('password cannot be blank')
         }), 
         onSubmit : ((values, {resetForm}) => {
+            const handleServerErrors = (errors) => {
+                setServerErrors(errors)
+            }
             //console.log(values)
-            dispatch(asyncLoginStatus(values))
+            dispatch(asyncLoginStatus(values, handleServerErrors))
             resetForm({values : ''})
         })
     })
@@ -53,10 +61,11 @@ const Login = (props) => {
                 <div className="col-md-6">
                     <h1 className="text-left animate__animated animate__zoomIn">Turn all your business data into digital by using our app </h1>
                 </div>
-                <div className="col-md-4 my-3">
-                    <h3 className="text-left mb-3">Login here</h3>
+                <div className="col-md-3 my-3 login">
+                    <h3 className="text-center mb-3">Login here</h3>
+                    {Object.keys(serverErrors).length ? <h5 className="text-danger">{serverErrors.errors}</h5> : null}
                     <form onSubmit={formik.handleSubmit}>
-                        <div className="form-group mb-4 w-75">
+                        <div className="form-group mb-3 w-100">
                             <label htmlFor="email">Email</label>
                             <input
                                 className="form-control border border-dark"
@@ -66,13 +75,14 @@ const Login = (props) => {
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
                                 value={formik.values.email}
+                                onFocus={handleFocus}
                                 
                             />
                             {formik.touched.email && formik.errors.email ?
                                 <span class="text-danger">{formik.errors.email}</span> : null
                             }
                         </div>
-                        <div className="form-group mb-4 w-75">
+                        <div className="form-group mb-3 w-100">
                             <label htmlFor="password">Password</label>
                             <input 
                                 className="form-control border border-dark"
@@ -81,6 +91,7 @@ const Login = (props) => {
                                 name="password"
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
+                                onFocus={handleFocus}
                                 value={formik.values.password}
                             />
                             {formik.touched.password && formik.errors.password ?
@@ -91,7 +102,7 @@ const Login = (props) => {
                         
                     </form>
 
-                    <h5 className="text-left my-3">Create a new account here <Link to='/register'>Register</Link></h5>
+                    <h5 className="text-left my-3 " style={{fontSize:"16px"}}>Create a new account here <Link to='/register'>Register</Link></h5>
                 </div>
             </div>
             

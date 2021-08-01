@@ -26,7 +26,7 @@ export const getProduct = (id, products) => {
     const result = products.find((ele) => {
         return ele._id === id
     })
-    return result
+    return result ? result.name : "product is deleted"
     }
 }
 

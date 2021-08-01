@@ -15,7 +15,7 @@ const TopCustomers = () => {
     return(
         <>
             {customers.length && bills.length ?
-                <div className="col-7 mt-2 dashboard-table animate__animated animate__zoomIn" style={{backgroundColor:"whitesmoke"}}>
+                <div className="col-7 mt-2 dashboard-table animate__animated animate__zoomIn" style={{backgroundColor:"whitesmoke",borderRadius:"10px"}}>
                     <h2 className="text-center my-2">Top customers</h2>
                     <table className="table table-striped text-center">
                         <thead>

@@ -13,7 +13,7 @@ const LastInvoices = (props) => {
     return(
         <>
             {bills.length && customers.length ?
-                <div className=" col-3 animate__animated animate__zoomIn cards listBills">
+                <div className=" col-3 animate__animated animate__zoomIn listBills">
                     <div className="d-flex justify-content-between align-items-center listbills-heading ">
                         <h4>Last invoices</h4>
                         <h5><Link to="/bills" style={{textDecoration:"none"}}>view all</Link></h5>

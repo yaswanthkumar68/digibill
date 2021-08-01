@@ -2,10 +2,10 @@ import React from 'react'
 import './dashBoard.css'
 
 const CardDetails = (props) => {
-    const{ itemName, data, icon } = props
+    const{ itemName, data, icon , text} = props
 
     return(
-        <div className=" d-flex justify-content-around align-items-center text-center animate__animated animate__zoomIn cards">
+        <div className={`d-flex justify-content-around  align-items-center text-center animate__animated animate__zoomIn cards ${text}`} >
             <div>
                 <p>{icon}</p>
             </div>

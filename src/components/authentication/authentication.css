@@ -1,13 +1,17 @@
+
+
 .auth-container{
-  margin: 2em auto;
-  width: 90vw;
+  margin: 2rem auto;
+  /* width: 90vw; */
   min-height: 90vh;
   height: auto;
-  box-shadow: 0px 0px 8px black;
-  border-radius: 1em;
-  padding: 1em;
+  box-shadow: 0px 0px 6px #888;
+  /* border-radius: 1rem; */
+  padding: 1.5rem ;
   background-color:#b7b9f7;
   color:white;
+  font-weight: 400px;
+
 }
 .button-authentication{
   background-color: blue;
@@ -15,4 +19,14 @@
   padding:12px;
   color:white;
   border-radius: 6px;
+}
+
+.login{
+  background-color: rgba(255, 255, 255, 0.664);
+  min-height: 300px;
+  color:black;
+  padding: 20px;
+  border-radius:10px;
+  box-shadow: 0px 2px 4px gray;
+
 }

@@ -34,14 +34,15 @@ export const resetRegisterStatus = () => {
 }
 
 
-export const asyncLoginStatus = (values) => {
+export const asyncLoginStatus = (values, handleServerErrors) => {
 
     return((dispatch) => {
         axios.post('/api/users/login', values)
             .then((response) => {
                 const result = response.data
                 if(result.hasOwnProperty('errors')){
-                    alert(result.errors)
+                    //alert(result.errors)
+                    handleServerErrors(result)
                 }
                 else{
                     alert('sucessfully logged in')

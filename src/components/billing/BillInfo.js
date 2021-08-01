@@ -65,7 +65,7 @@ const BillInfo = (props) => {
                             return (
                                 <tr key={i}>
                                     <td>{i+1}</td>
-                                    <td>{getProduct(ele.product, products).name}</td>
+                                    <td>{getProduct(ele.product, products)}</td>
                                     <td>{ele.quantity}</td>
                                     <td>{ele.price}/-</td>
                                     <td>{ele.subTotal}/-</td>

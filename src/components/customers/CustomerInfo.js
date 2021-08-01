@@ -38,7 +38,7 @@ const CustomerInfo = (props) => {
           }).then((result) => {
             if (result.isConfirmed) {
                 const redirect = () => {
-                    props.history.push('/customers')
+                    props.history.replace('/customers')
                 }
                 dispatch(asyncRemoveCustomer(id, redirect))
                 
@@ -97,8 +97,8 @@ const CustomerInfo = (props) => {
                                         <td>{new Date(ele.date).toISOString().split('T')[0]}</td>
                                         <td>{ele.total}</td>
                                         <td>
-                                            <button style={{border:"none", backgroundColor:"white"}}><Link to={{pathname:`/bills/${ele._id}`, state:ele}}><i class="fas fa-file-invoice mx-2" style={{color:"blue", fontSize:"20px"}}></i></Link></button>
-                                            <button style={{border:"none", backgroundColor:"white"}} onClick={() => {handleRemove(ele._id)}}><i class="far fa-trash-alt mx-2" style={{color:"red", fontSize:"20px"}}></i></button>
+                                            <button style={{border:"none", backgroundColor:"#EBEBF3"}}><Link to={{pathname:`/bills/${ele._id}`, state:ele}}><i class="fas fa-file-invoice mx-2" style={{color:"blue", fontSize:"20px", backgroundColor:"#EBEBF3"}}></i></Link></button>
+                                            <button style={{border:"none", backgroundColor:"#EBEBF3"}} onClick={() => {handleRemove(ele._id)}}><i class="far fa-trash-alt mx-2" style={{color:"red", fontSize:"20px", backgroundColor:"#EBEBF3"}}></i></button>
                                         </td>
                                     </tr>
                                 )

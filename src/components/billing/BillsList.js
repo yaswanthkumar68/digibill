@@ -46,7 +46,7 @@ const BillsList = (props) => {
                 <button className="col-2 btn btn-success btn-lg"><Link to="/bills/billingform" style={{textDecoration:"none", color:"white"}}>Create new bill</Link></button>
             </div>
 
-            <div style={{overflow:"auto", height:"70vh"}}>
+            <div style={{overflow:"auto", height:"80vh"}}>
             <div className="row justify-content-center">
                 {bills.length && customers.length ?
                 <table className="table table-hover w-75 text-center" style={{fontSize:"20px"}}>
@@ -66,8 +66,8 @@ const BillsList = (props) => {
                                     <td>{getName(ele.customer, customers).name}</td>
                                     <td>Rs. {ele.total}/-</td>
                                     <td>
-                                        <button style={{border:"none", backgroundColor:"none"}}><Link to={{pathname:`/bills/${ele._id}`, state:ele}}><i className="fas fa-file-invoice mx-2" style={{color:"blue", fontSize:"20px"}}></i></Link></button>
-                                        <button style={{border:"none", backgroundColor:"none"}} onClick={() => {handleRemove(ele._id)}}><i className="far fa-trash-alt mx-2" style={{color:"red", fontSize:"20px"}}></i></button>
+                                        <button style={{border:'none', backgroundColor:"#EBEBF3"}}><Link to={{pathname:`/bills/${ele._id}`, state:ele}}><i className="fas fa-file-invoice mx-2" style={{color:"blue", fontSize:"20px", backgroundColor:"#EBEBF3"}}></i></Link></button>
+                                        <button style={{border:'none', backgroundColor:"#EBEBF3"}} onClick={() => {handleRemove(ele._id)}}><i className="far fa-trash-alt mx-2" style={{color:"red", fontSize:"20px", backgroundColor:"#EBEBF3"}}></i></button>
                                     </td>
                                 </tr>
                             )

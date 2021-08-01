@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 const CustomersList = (props) => {
     const { list } = props
     return(
-        <div className="row" style={{overflowY:"auto", height:"52vh"}}>
+        <div className="row" style={{overflowY:"auto", height:"60vh"}}>
             {list.map((ele, i) => {
                 return(
                     <div key={i} className="col-2 text-center my-3 animate__animated animate__zoomIn">

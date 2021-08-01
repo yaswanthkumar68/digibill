@@ -140,6 +140,7 @@ export const getLastBillsData = (bills) => {
                 obj.netAmount += (bill.total/1000)
             }
         })
+        obj.netAmount = obj.netAmount.toFixed(2)
         return obj
     })
 
@@ -147,7 +148,7 @@ export const getLastBillsData = (bills) => {
 }
 
 export const getLast7DaysBills = (data) => {
-    
+    data.reverse()
     const billsLength = data.length
     const result = []
     if(billsLength > 7){

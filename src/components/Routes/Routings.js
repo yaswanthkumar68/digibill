@@ -36,19 +36,18 @@ const Routings = (props) => {
         <div className="container-fluid">
             <>
                 {status.logInStatus &&
-                <div className="d-flex justify-content-sm-between align-items-sm-center px-5 py-2" style={{borderBottom:"2px solid #ddd", backgroundColor:"#b7b9f7"}}>
-                    <div>
-                        <h1 style={{color:"white"}}><span style={{fontSize:"55px"}}>D</span>igi<span style={{fontSize:"55px"}}>B</span>ill</h1>
+                    <div className="d-flex justify-content-sm-between align-items-sm-center px-5 py-2" style={{borderBottom:"2px solid #ddd", backgroundColor:"#b7b9f7"}}>
+                        <div>
+                            <h1 style={{color:"white"}}><span style={{fontSize:"55px"}}>D</span>igi<span style={{fontSize:"55px"}}>B</span>ill</h1>
+                        </div>
+                        <div>
+                            <Link to='/account' className="px-3 link"><i className="fas fa-user"></i> {status.account.username}</Link>
+                            <Link to='/' className=" px-3 link"  onClick={()=>{
+                                localStorage.removeItem('token')
+                                dispatch(resetLogin())
+                            }}>Logout</Link>
+                        </div>
                     </div>
-                    <div>
-                        <Link to='/account' className="px-3 link"><i className="fas fa-user"></i> {status.account.username}</Link>
-                        <Link to='/' className=" px-3 link"  onClick={()=>{
-                            localStorage.removeItem('token')
-                            dispatch(resetLogin())
-                        }}>Logout</Link>
-                    </div>
-                    
-                </div>
                 }
             </>
             <div className='row mx-auto'>

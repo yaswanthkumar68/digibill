@@ -67,10 +67,10 @@ const Register = (props) => {
                 <div className="col-md-6">
                     <h1 className="text-left animate__animated animate__zoomIn">Now its easy to store all of your business data at one place</h1>
                 </div>
-                <div className="col-md-4 my-3">
-                    <h3 className="text-left mb-3">Register here</h3>
+                <div className="col-md-3 my-3 py-3 login">
+                    <h3 className="text-center mb-3 py-2">Register here</h3>
                     <form onSubmit={formik.handleSubmit}>
-                        <div className="form-group mb-4 w-75">
+                        <div className="form-group mb-4 w-100">
                         <label htmlFor="username">Username</label>
                         <input 
                             className="form-control border border-dark"
@@ -86,7 +86,7 @@ const Register = (props) => {
                         }
                         </div>
 
-                        <div className="form-group mb-4 w-75">
+                        <div className="form-group mb-4 w-100">
                         <label htmlFor="email">Email</label><br/>
                         <input
                             className="form-control border border-dark"
@@ -102,7 +102,7 @@ const Register = (props) => {
                         }
                         </div>
                         
-                        <div className="form-group mb-4 w-75">
+                        <div className="form-group mb-4 w-100">
                         <label htmlFor="password">Password</label>
                         <input 
                             className="form-control border border-dark"
@@ -118,7 +118,7 @@ const Register = (props) => {
                         }
                         </div>
 
-                        <div className="form-group mb-4 w-75">
+                        <div className="form-group mb-4 w-100">
                         <label htmlFor="businessName">Business name</label>
                         <input 
                             className="form-control border border-dark"
@@ -134,7 +134,7 @@ const Register = (props) => {
                         }
                         </div>
 
-                        <div className="form-group mb-4 w-75">
+                        <div className="form-group mb-4 w-100">
                         <label htmlFor="address">Address</label>
                         <textarea
                             className="form-control border border-dark"
@@ -154,7 +154,7 @@ const Register = (props) => {
                         </div>
                         <input type="submit" value="Register" className="button-authentication"/>
                     </form>
-                    <h5 className="text-left my-3">Already have an account <Link to="/">Login here</Link></h5>
+                    <h5 className="text-left my-3" style={{fontSize:"16px"}}>Already have an account <Link to="/">Login here</Link></h5>
 
                 </div>
             
